@@ -9,7 +9,7 @@ import me.zzp.jac.Service;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class Users extends Service {
+public final class Users extends Service {
   private final Table User;
 
   public Users(HttpServletRequest request, HttpServletResponse response) {

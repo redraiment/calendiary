@@ -7,7 +7,7 @@ import me.zzp.ar.Record;
 import me.zzp.ar.Table;
 import me.zzp.jac.Service;
 
-public class Calendars extends Service {
+public final class Calendars extends Service {
   private final Table User;
 
   public Calendars(HttpServletRequest request, HttpServletResponse response) {
@@ -37,12 +37,16 @@ public class Calendars extends Service {
       redirect("/");
     }
 
+    createItem(user, 0, getStr("name"), getStr("color"), 0);
+  }
+
+  static void createItem(Record user, int parentId, String name, String color, int refer) {
     Table Calendar = user.get("calendars");
-    Record sort = Calendar.select("count(*) as sort").where("parent_id = ?").orderBy("sort").one(0);
-    Calendar.create("parent_id:", 0,
-                    "name:", get("name"),
-                    "color:", get("color"),
-                    "sort:", (long)sort.get("sort") + 1,
-                    "refer_id:", 0);
+    Record sort = Calendar.select("max(sort) + 1 as sort").where("parent_id = ?").orderBy("sort").one(parentId);
+    Calendar.create("parent_id:", parentId,
+                    "name:", name,
+                    "color:", color,
+                    "sort:", sort.get("sort"),
+                    "refer_id:", refer);
   }
 }
