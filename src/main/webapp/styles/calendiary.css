@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 16px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;
+}
+
+table.calendiary {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table.calendiary > thead > tr > th {
+    font-weight: normal;
+}
+
+table.calendiary > tbody > tr > td {
+    border: 1px solid #DDD;
+    height: 8em;
+    vertical-align: top;
+}
+
+table.calendiary > tbody > tr > td > div {
+    background-color: #EAEAEA;
+    text-align: right;
+}
+
+table.calendiary > tbody > tr > td a {
+    color: #222;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+table.calendiary > tbody > tr > td a:hover {
+    text-decoration: underline;
+}
+
+table.calendiary > tbody > tr > td > ul {
+    font-size: small;
+    list-style: none;
+    overflow: hidden;
+    padding: 0.5ex;
+    white-space: nowrap;
+}
+
+table.calendiary > tbody > tr > td > ul > li > a {
+    color: #D06B64;
+}
+
+table.calendiary > tfoot > tr > td, table.calendiary > tfoot > tr > td button, table.calendiary > tfoot > tr > td input {
+    font-size: large;
+    margin-top: 1em;
+    padding: 0.2ex;
+}
+
+table.calendiary > tfoot > tr > td button {
+    background-color: #F5F5F5;
+    border: none;
+    cursor: pointer;
+    outline: 1px solid #C5C5C5;
+}
+
+table.calendiary > tfoot > tr > td.calendiary-caption {
+    text-align: center;
+}
+
+table.calendiary > tfoot > tr > td.calendiary-search {
+    text-align: right;
+}

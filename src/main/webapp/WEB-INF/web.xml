@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+  <listener>
+    <listener-class>me.zzp.calendiary.Route</listener-class>
+  </listener>
+  <listener>
+    <listener-class>me.zzp.calendiary.Database</listener-class>
+  </listener>
+  <servlet>
+    <servlet-name>static-files</servlet-name>
+    <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>static-files</servlet-name>
+    <url-pattern>/images/*</url-pattern>
+    <url-pattern>/styles/*</url-pattern>
+    <url-pattern>/scripts/*</url-pattern>
+    <url-pattern>/statics/*</url-pattern>
+  </servlet-mapping>
+</web-app>
