@@ -1,5 +1,6 @@
 package me.zzp.calendiary.calendar;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import me.zzp.ar.DB;
@@ -10,23 +11,6 @@ import me.zzp.jac.Service;
 public final class CalendarItem extends Service {
   public CalendarItem(HttpServletRequest request, HttpServletResponse response) {
     super(request, response);
-  }
-
-  private boolean auth() {
-    Record user = get("whoami");
-    if (user == null) {
-      return false;
-    }
-    String name = get("user");
-    return name.equalsIgnoreCase(user.getStr("name"));
-  }
-
-  private Record getCalendar() {
-    if (auth()) {
-      Record user = get("whoami");
-      
-    }
-    return null;
   }
 
   @Override
@@ -47,18 +31,41 @@ public final class CalendarItem extends Service {
 
   @Override
   public void update() {
-    final Record calendar = getCalendar();
-    if (calendar != null) {
-      if (get("name") != null && get("color") != null) {
-        calendar.update("name:", get("name"), "color:", get("color"));
-      } else if (get("pid") != null && get("sort") != null) {
-        DB dbo = get("dbo");
-        dbo.tx(new Runnable() {
-          @Override
-          public void run() {
-            // TODO
+    Record user = get("whoami");
+    if (user != null) {
+      if (getStr("user").equalsIgnoreCase(user.getStr("name"))) {
+        final Table Calendar = user.get("calendars");
+        if (Calendar != null) {
+          final Record calendar = Calendar.find(getInt("id"));
+          if (calendar != null) {
+            if (get("name") != null && get("color") != null) {
+              calendar.update("name:", get("name"), "color:", get("color"));
+            } else if (get("pid") != null && get("sort") != null) {
+              DB dbo = get("dbo");
+              dbo.tx(new Runnable() {
+                @Override
+                public void run() {
+                  int pid = getInt("pid");
+                  int sort = getInt("sort");
+                  calendar.set("parent_id:", pid);
+
+                  List<Record> calendars = Calendar.findBy("parent_id:", pid);
+                  if (sort <= calendars.size()) {
+                    calendars.add(sort - 1, calendar);
+                  } else {
+                    calendars.add(calendar);
+                  }
+
+                  int index = 1;
+                  for (Record item : calendars) {
+                    item.update("sort:", index);
+                    index++;
+                  }
+                }
+              });
+            }
           }
-        });
+        }
       }
     }
   }
